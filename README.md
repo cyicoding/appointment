@@ -56,7 +56,7 @@ Date Format: yyyy-MM-dd
 Sample Request:
 ```
 [{
-    "id": 1000,
+    "id": null,
     "customer": "TBD",
     "carVIN": "TBD",
     "price": 0.0,
