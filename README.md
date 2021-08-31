@@ -2,7 +2,7 @@
 ## Step1 
   Download the project to your local machine.
 ## Step2 
-  Navigate to the project directory from your terminal.
+  Navigate into the project directory from your terminal.
 ## Step3
   Type the following commands in your terminal to build and run.
 ```
