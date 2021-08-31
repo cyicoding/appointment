@@ -89,6 +89,26 @@ public class AppointmentController {
 	}
 	
 	/*
+	 * Update the status of an appointment
+	 */
+	@PutMapping("/appointments/{id}/{status}") 
+	ResponseEntity<Appointment> updateAppointmentStatus(@PathVariable Long id, @PathVariable String status) {
+		if (id == null) {
+			return ResponseEntity.badRequest().build();
+		}
+		Optional<Appointment> optionalRecord = service.findById(id);
+	    if (optionalRecord == null) {
+	    	return ResponseEntity.badRequest().build();
+	    }
+	    Appointment existingRecord = optionalRecord.get();
+	    existingRecord.setStatus(status);
+		
+	    service.save(existingRecord);
+	    return ResponseEntity.ok().body(existingRecord);
+		
+	}
+	
+	/*
 	 * Get an appointment by Id
 	 */
 	@DeleteMapping("/appointments/{id}")
