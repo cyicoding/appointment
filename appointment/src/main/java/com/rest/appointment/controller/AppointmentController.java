@@ -45,22 +45,25 @@ public class AppointmentController {
 	 * Get an appointment by Id
 	 */
 	@GetMapping("/appointments/{id}")
-	Optional<Appointment> getOne(@PathVariable Long id) {
-		return service.findById(id);
+	Appointment getOne(@PathVariable Long id) {
+		Optional<Appointment> opptionalAppointment = service.findById(id);
+		Appointment a = opptionalAppointment.isPresent() ? opptionalAppointment.get() : null;
+		return a;
 	}
 	
 	/*
 	 * Create new appointments
 	 */
 	@PostMapping("/appointments")
-	ResponseEntity<List<Appointment>> createAppointments(@RequestBody List<Appointment> appts) {
+	ResponseEntity<String> createAppointments(@RequestBody List<Appointment> appts) {
 		if (appts == null) {
-			return ResponseEntity.badRequest().build();
+			return ResponseEntity.badRequest().body("Appointment can't be null!");
 		}
 		for (Appointment appt : appts) {
+			appt.setId(null);
 			service.save(appt);
 		}
-		return ResponseEntity.ok().body(appts);
+		return ResponseEntity.ok().body(appts.size() + " new appointments have been added.");
 	}
 	
 	/*
@@ -72,7 +75,7 @@ public class AppointmentController {
 			return ResponseEntity.badRequest().build();
 		}
 		Optional<Appointment> optionalRecord = service.findById(id);
-	    if (optionalRecord == null) {
+	    if (!optionalRecord.isPresent()) {
 	    	return ResponseEntity.badRequest().build();
 	    }
 	    Appointment existingRecord = optionalRecord.get();
@@ -97,7 +100,7 @@ public class AppointmentController {
 			return ResponseEntity.badRequest().build();
 		}
 		Optional<Appointment> optionalRecord = service.findById(id);
-	    if (optionalRecord == null) {
+	    if (!optionalRecord.isPresent()) {
 	    	return ResponseEntity.badRequest().build();
 	    }
 	    Appointment existingRecord = optionalRecord.get();
@@ -112,27 +115,31 @@ public class AppointmentController {
 	 * Get an appointment by Id
 	 */
 	@DeleteMapping("/appointments/{id}")
-	ResponseEntity<Void> deleteAppointment(@PathVariable Long id) {
-		if (service.findById(id) == null) {
-			return ResponseEntity.badRequest().build();
+	ResponseEntity<String> deleteAppointment(@PathVariable Long id) {
+		Optional<Appointment> optionalRecord = service.findById(id);
+		if (!optionalRecord.isPresent()) {
+			return ResponseEntity.badRequest().body("Appointment " + id + " doesn't exist!");
 	    }
 		service.deleteById(id);
-		return ResponseEntity.ok().build();
+		return ResponseEntity.ok().body("Appointment " + id + " has been deleted.");
 	}	
 	
 	/*
 	 * Delete appointments
 	 */
 	@DeleteMapping("/appointments")
-	ResponseEntity<Void> deleteAppointments(@RequestBody List<Long> ids) {
+	ResponseEntity<String> deleteAppointments(@RequestBody List<Long> ids) {
 		if (ids == null)
 			return ResponseEntity.badRequest().build();
+		String deleted = "";
 		for (Long id : ids) {
-			if (service.findById(id) != null) {
+			Optional<Appointment> optionalRecord = service.findById(id);
+			if (optionalRecord.isPresent()) {
 				service.deleteById(id);
+				deleted += id + " ";
 		    }		
 		}
-		return ResponseEntity.ok().build();
+		return ResponseEntity.ok().body("Appointments " + deleted + "have been deleted.");
 	}	
 	
 }
