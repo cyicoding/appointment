@@ -64,7 +64,7 @@ Sample Request:
     "status": "New"
 }]
 ```
-## PUT /appointments
+## PUT /appointments/{id}
 Sample Request:
 ```
 {
