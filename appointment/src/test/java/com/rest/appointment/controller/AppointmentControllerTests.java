@@ -189,9 +189,29 @@ public class AppointmentControllerTests {
 	            .andExpect(status().isBadRequest());
 	}
 	
-	
 	@Test
 	@Order(8)
+	public void updateAppointmentStatus_success() throws Exception {
+	    
+	    Appointment updatedAppt = apptOne;
+	    updatedAppt.setStatus("Cancelled");
+	    Mockito.when(appointmentService.findById(1l)).thenReturn(Optional.of(apptOne));
+	    Mockito.when(appointmentService.save(Mockito.any(Appointment.class))).thenReturn(updatedAppt);
+
+	    RequestBuilder mockRequest = MockMvcRequestBuilders.put("/appointments/1/Cancelled")	            
+	            .accept(MediaType.APPLICATION_JSON)
+	            .content(this.mapper.writeValueAsString(updatedAppt))
+	            .contentType(MediaType.APPLICATION_JSON);
+
+	    mockMvc.perform(mockRequest)
+	            .andExpect(status().isOk())
+	            .andExpect(jsonPath("$", notNullValue()))
+	            .andExpect(jsonPath("$.status", is("Cancelled")));
+	}
+	
+	
+	@Test
+	@Order(9)
 	public void updateAppointment_recordNotFound() throws Exception {
 	    Appointment updatedAppt = new Appointment();
 
@@ -207,7 +227,7 @@ public class AppointmentControllerTests {
 }
 	
 	@Test
-	@Order(9)
+	@Order(10)
 	public void deleteAppointmentById_success() throws Exception {
 		apptTwo.setId(2l);
 	    Mockito.when(appointmentService.findById(apptTwo.getId())).thenReturn(Optional.of(apptTwo));
@@ -219,7 +239,7 @@ public class AppointmentControllerTests {
 	}
 
 	@Test
-	@Order(10)
+	@Order(11)
 	public void deleteAppointmentById_notFound() throws Exception {
 	    Mockito.when(appointmentService.findById(5l)).thenReturn(null);
 
@@ -230,7 +250,7 @@ public class AppointmentControllerTests {
 	}
 	
 	@Test
-	@Order(11)
+	@Order(12)
 	public void deleteAppointments_success() throws Exception {
 		List<Long> list = new ArrayList<>();
 		apptOne.setId(1l);
@@ -249,7 +269,7 @@ public class AppointmentControllerTests {
 	}
 	
 	@Test
-	@Order(12)
+	@Order(13)
 	public void deleteAppointments_null() throws Exception {
 		List<Long> list = null;
 	    mockMvc.perform(MockMvcRequestBuilders
