@@ -1,10 +1,10 @@
 # Quickstart
 ## Step1 
-  Download the project to your local machine
+  Download the project to your local machine.
 ## Step2 
-  Navigate to the project directory from your terminal
+  Navigate to the project directory from your terminal.
 ## Step3
-  Type the following commands in your terminal.
+  Type the following commands in your terminal to build and run.
 ```
 $ ./mvnw clean install
 $ ./mvnw spring-boot:run
