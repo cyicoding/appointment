@@ -5,7 +5,7 @@
 - Maven
 - Junit
 - Docker
-# How To Build And Run
+# How to Build and Run
 ## Step1 
   Download the project to your local machine.
 ## Step2 
