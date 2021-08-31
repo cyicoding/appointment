@@ -5,7 +5,7 @@
 - Maven
 - Junit
 - Docker
-# Quickstart
+# How To Build And Run
 ## Step1 
   Download the project to your local machine.
 ## Step2 
