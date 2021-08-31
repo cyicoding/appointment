@@ -24,31 +24,34 @@ public class AppointmentController {
 	@Autowired
 	private AppointmentService service;
 	
+	/*
+	 * Get all appointments
+	 */
 	@GetMapping("/appointments")
 	List<Appointment> getAll() {
 		return service.findAll();
 	}
 	
+	/*
+	 * Get all appointments within a date rage and sorted by price
+	 */
 	@GetMapping("/appointments/{dateFrom}/{dateTo}")
 	List<Appointment> getAllWithDateRange(@PathVariable("dateFrom") @DateTimeFormat(pattern = "yyyy-MM-dd") Date dateFrom, 
 			@PathVariable("dateTo") @DateTimeFormat(pattern = "yyyy-MM-dd")Date dateTo) {
 		return service.findAll(dateFrom, dateTo);
 	}
 	
+	/*
+	 * Get an appointment by Id
+	 */
 	@GetMapping("/appointments/{id}")
 	Optional<Appointment> getOne(@PathVariable Long id) {
 		return service.findById(id);
 	}
 	
-//	@PostMapping("/appointments")
-//	ResponseEntity<Appointment> create(@RequestBody Appointment appt) {
-//		if (appt == null) {
-//			return ResponseEntity.badRequest().build();
-//		}
-//		service.save(appt);
-//		return ResponseEntity.ok().body(appt);
-//	}
-	
+	/*
+	 * Create new appointments
+	 */
 	@PostMapping("/appointments")
 	ResponseEntity<List<Appointment>> createAppointments(@RequestBody List<Appointment> appts) {
 		if (appts == null) {
@@ -60,6 +63,9 @@ public class AppointmentController {
 		return ResponseEntity.ok().body(appts);
 	}
 	
+	/*
+	 * Update an appointment
+	 */
 	@PutMapping("/appointments/{id}") 
 	ResponseEntity<Appointment> updateAppointment(@RequestBody Appointment updatedAppt, @PathVariable Long id) {
 		if (updatedAppt == null || id == null) {
@@ -82,6 +88,9 @@ public class AppointmentController {
 		
 	}
 	
+	/*
+	 * Get an appointment by Id
+	 */
 	@DeleteMapping("/appointments/{id}")
 	ResponseEntity<Void> deleteAppointment(@PathVariable Long id) {
 		if (service.findById(id) == null) {
@@ -91,6 +100,9 @@ public class AppointmentController {
 		return ResponseEntity.ok().build();
 	}	
 	
+	/*
+	 * Delete appointments
+	 */
 	@DeleteMapping("/appointments")
 	ResponseEntity<Void> deleteAppointments(@RequestBody List<Long> ids) {
 		if (ids == null)

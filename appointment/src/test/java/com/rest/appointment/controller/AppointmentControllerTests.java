@@ -21,6 +21,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -107,7 +109,8 @@ public class AppointmentControllerTests {
             Mockito.when(appointmentService.findAll(dateFrom, dateTo)).thenReturn(appointments);
 		
         } catch (ParseException e) {
-            e.printStackTrace();
+        	Logger log = LoggerFactory.getLogger(AppointmentControllerTests.class);
+        	log.info("Cannot parse date!");
         }
 		mockMvc.perform(MockMvcRequestBuilders
 				.get("/appointments/2021-07-19/2021-08-01")

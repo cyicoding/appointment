@@ -18,7 +18,7 @@ public class PreloadData {
 	
 	@Bean
 	CommandLineRunner initDatabase(AppointmentRepository repo) {
-		
+		// Initialize the database with some data
 		return args -> {
 		      log.info("Preloading " + repo.save(new Appointment("John", "DAGHEOU32532FDS", 123.0, new Date(), "Active")));
 		      log.info("Preloading " + repo.save(new Appointment("Alex", "YOIG73DS907DES3", 356.0, new Date(), "Active")));
