@@ -1,3 +1,10 @@
+# Technologies
+- Java
+- Spring Boot
+- H2
+- Maven
+- Junit
+- Docker
 # Quickstart
 ## Step1 
   Download the project to your local machine.
